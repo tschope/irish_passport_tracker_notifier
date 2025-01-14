@@ -14,7 +14,8 @@
         "laravel/tinker": "^2.9",
         "symfony/dom-crawler": "^7.2",
         "symfony/http-client": "^7.2",
-        "symfony/mailgun-mailer": "^7.2"
+        "symfony/mailgun-mailer": "^7.2",
+        "tschope/passport-tracking-client": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -72,6 +73,12 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../passport-tracking-client"
+        }
+    ]
 }

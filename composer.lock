@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "228fa364ecd7967bb6686ed17ab8479f",
+    "content-hash": "13a399d826afa24badf8ae6a4bc4b308",
     "packages": [
         {
             "name": "brick/math",
@@ -5958,6 +5958,40 @@
             "time": "2024-12-21T16:25:41+00:00"
         },
         {
+            "name": "tschope/passport-tracking-client",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../passport-tracking-client",
+                "reference": "8380e9913c418518632d212649e757811e8643d2"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.4",
+                "php": "^8.2",
+                "symfony/dom-crawler": "^7.2",
+                "symfony/http-client": "^7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tschope\\PassportTrackingClient\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rodrigo Tschope",
+                    "email": "tschope@gmail.com"
+                }
+            ],
+            "description": "A package for tracking Irish passport applications.",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v5.6.1",
             "source": {
@@ -8451,13 +8485,13 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": {},
+    "minimum-stability": "dev",
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }
