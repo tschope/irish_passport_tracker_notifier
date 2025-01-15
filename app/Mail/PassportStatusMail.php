@@ -14,20 +14,24 @@ class PassportStatusMail extends Mailable
     use Queueable, SerializesModels;
 
     public $statusData;
+    public $reference;
+    public $unsubscribeToken;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($statusData)
+    public function __construct($statusData, $reference, $unsubscribeToken)
     {
         $this->statusData = $statusData;
+        $this->reference = $reference;
+        $this->unsubscribeToken = $unsubscribeToken;
     }
 
     public function build()
     {
-        $viewContent = view('emails.status', ['statusData' => $this->statusData])->render();
+        $viewContent = view('emails.status', ['statusData' => $this->statusData, 'unsubscribeToken' => $this->unsubscribeToken])->render();
 
-        return $this->subject('Passport Status Update')
+        return $this->subject('Passport Status Update - ID ' . $this->reference)
             ->html($viewContent);
     }
 
@@ -37,27 +41,7 @@ class PassportStatusMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Passport Status Mail',
+            subject: 'Passport Status Mail - ID ' . $this->reference,
         );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
     }
 }

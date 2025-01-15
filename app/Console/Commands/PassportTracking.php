@@ -2,10 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\PassportStatusRemoveMail;
+use App\Models\ApplicationIdToEmail;
+use App\Models\UnsubscribeToken;
 use Illuminate\Console\Command;
 use App\Mail\PassportStatusMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Tschope\PassportTrackingClient\PassportTrackingClient;
+use Illuminate\Support\Facades\Crypt;
 
 class PassportTracking extends Command
 {
@@ -20,15 +25,29 @@ class PassportTracking extends Command
         $client = new PassportTrackingClient();
         $statusData = $client->getStatus($reference);
 
+        $user = ApplicationIdToEmail::where('applicationId', $reference)->first();
+        $email = Crypt::decrypt($user->email);
+
+        if(!empty($statusData['error'])) {
+            $this->error("Error processing Application ID: $reference. " . $statusData['message']);
+            Mail::to($email)->send(new PassportStatusRemoveMail(['Message' => $statusData['message']], $reference));
+
+            // $user->delete();
+
+            return 0;
+        }
+
         if ($statusData) {
             $this->info('Passport Tracking Status:');
-            foreach ($statusData as $key => $value) {
-                $this->line("$key: $value");
-            }
 
             $this->info('Sending status update via email...');
 
-            Mail::to('tschope@gmail.com')->send(new PassportStatusMail($statusData));
+            $unsubscribeToken = UnsubscribeToken::firstOrCreate(
+                ['applicationId' => $reference],
+                ['unsubscribe_token' => Str::random(40)]
+            );
+
+            Mail::to($email)->send(new PassportStatusMail($statusData, $reference, $unsubscribeToken->unsubscribe_token));
 
             $this->info('Email sent successfully!');
 

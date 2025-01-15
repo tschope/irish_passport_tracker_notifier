@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class EmailVerification extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'applicationId',
+        'hash',
+        'expires_at', // Caso use expiração
+    ];
+
+    // Relacionamento com o modelo ApplicationEmail
+    public function applicationEmail()
+    {
+        return $this->belongsTo(ApplicationIdToEmail::class, 'applicationId');
+    }
+}
