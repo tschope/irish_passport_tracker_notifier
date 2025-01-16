@@ -108,7 +108,7 @@
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/e940f790-9649-4131-946d-b1ecde3ae41d.json"
       ],
       "#components": [
         "./components"
@@ -155,7 +155,7 @@
     "../../frontend",
     ".",
     "./imports",
-    "./manifest/meta/dev"
+    "./manifest/meta/e940f790-9649-4131-946d-b1ecde3ae41d.json"
   ],
   "exclude": [
     "../../frontend/dist",

@@ -83,6 +83,24 @@ declare module 'nuxt/schema' {
   }
   interface PublicRuntimeConfig {
    apiBase: string,
+
+   gtag: {
+      enabled: boolean,
+
+      initMode: string,
+
+      id: string,
+
+      initCommands: Array<any>,
+
+      config: any,
+
+      tags: Array<any>,
+
+      loadingStrategy: string,
+
+      url: string,
+   },
   }
 }
 declare module 'vue' {

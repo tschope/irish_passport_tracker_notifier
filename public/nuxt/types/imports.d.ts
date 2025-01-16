@@ -101,7 +101,7 @@ declare global {
   const useCssVars: typeof import('vue')['useCssVars']
   const useError: typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/error')['useError']
   const useFetch: typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/fetch')['useFetch']
-  const useGtag: typeof import('../../../frontend/node_modules/nuxt-gtag/dist/runtime/composables/useGtagMock')['useGtagMock']
+  const useGtag: typeof import('../../../frontend/node_modules/nuxt-gtag/dist/runtime/composables/useGtag')['useGtag']
   const useHead: typeof import('../../../frontend/node_modules/@unhead/vue')['useHead']
   const useHeadSafe: typeof import('../../../frontend/node_modules/@unhead/vue')['useHeadSafe']
   const useHydration: typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/hydrate')['useHydration']
@@ -113,7 +113,6 @@ declare global {
   const useModel: typeof import('vue')['useModel']
   const useNuxtApp: typeof import('../../../frontend/node_modules/nuxt/dist/app/nuxt')['useNuxtApp']
   const useNuxtData: typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/asyncData')['useNuxtData']
-  const useNuxtDevTools: typeof import('../../../frontend/node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']
   const usePreviewMode: typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/preview')['usePreviewMode']
   const useRequestEvent: typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']
   const useRequestFetch: typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/ssr')['useRequestFetch']
@@ -158,7 +157,7 @@ declare global {
   const useSlots: typeof import('vue')['useSlots']
   const useState: typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/state')['useState']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
-  const useTrackEvent: typeof import('../../../frontend/node_modules/nuxt-gtag/dist/runtime/composables/useTrackEventMock')['useTrackEventMock']
+  const useTrackEvent: typeof import('../../../frontend/node_modules/nuxt-gtag/dist/runtime/composables/useTrackEvent')['useTrackEvent']
   const useTransitionState: typeof import('vue')['useTransitionState']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
@@ -281,7 +280,7 @@ declare module 'vue' {
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useError: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/error')['useError']>
     readonly useFetch: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/fetch')['useFetch']>
-    readonly useGtag: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt-gtag/dist/runtime/composables/useGtagMock')['useGtagMock']>
+    readonly useGtag: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt-gtag/dist/runtime/composables/useGtag')['useGtag']>
     readonly useHead: UnwrapRef<typeof import('../../../frontend/node_modules/@unhead/vue')['useHead']>
     readonly useHeadSafe: UnwrapRef<typeof import('../../../frontend/node_modules/@unhead/vue')['useHeadSafe']>
     readonly useHydration: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/hydrate')['useHydration']>
@@ -293,7 +292,6 @@ declare module 'vue' {
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useNuxtApp: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt/dist/app/nuxt')['useNuxtApp']>
     readonly useNuxtData: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/asyncData')['useNuxtData']>
-    readonly useNuxtDevTools: UnwrapRef<typeof import('../../../frontend/node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']>
     readonly usePreviewMode: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/preview')['usePreviewMode']>
     readonly useRequestEvent: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']>
     readonly useRequestFetch: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/ssr')['useRequestFetch']>
@@ -338,7 +336,7 @@ declare module 'vue' {
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useState: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt/dist/app/composables/state')['useState']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
-    readonly useTrackEvent: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt-gtag/dist/runtime/composables/useTrackEventMock')['useTrackEventMock']>
+    readonly useTrackEvent: UnwrapRef<typeof import('../../../frontend/node_modules/nuxt-gtag/dist/runtime/composables/useTrackEvent')['useTrackEvent']>
     readonly useTransitionState: UnwrapRef<typeof import('vue')['useTransitionState']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>

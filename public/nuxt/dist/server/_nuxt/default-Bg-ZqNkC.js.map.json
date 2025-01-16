@@ -1,0 +1,1 @@
+{"file":"default-Bg-ZqNkC.js","mappings":";;;;;;;;;;;;;;;AAAA,SAAA,eAAA,MAAA,OAAA,SAAA,QAAA;;;;;;;;;;","names":[],"sources":["../../../../../frontend/layouts/default.vue"],"sourcesContent":["<template>\n    <slot />\n</template>\n<script setup lang=\"ts\">\n</script>\n"],"version":3}
