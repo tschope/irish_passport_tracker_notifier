@@ -99,6 +99,12 @@
                 >
                     Unsubscribe
                 </a>
+                <a
+                    @click.prevent="navigateToPrivacy"
+                    class="text-blue-500 hover:underline cursor-pointer"
+                >
+                    Privacy Policy
+                </a>
             </p>
         </div>
     </div>
@@ -198,6 +204,9 @@ const resetForm = () => {
 
 const navigateToUnsubscribe = () => {
     navigateTo('/unsubscribe')
+};
+const navigateToPrivacy = () => {
+    navigateTo('/privacy')
 };
 </script>
 
