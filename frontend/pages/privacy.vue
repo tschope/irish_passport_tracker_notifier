@@ -89,7 +89,24 @@
             </section>
 
             <section class="mb-6">
-                <h2 class="text-lg font-semibold mb-2">7. Changes to This Policy</h2>
+                <h2 class="text-lg font-semibold mb-2">7. Transparency</h2>
+                <p class="text-gray-700">
+                    For full transparency, the source code of this website is publicly
+                    available. You can review it here:
+                </p>
+                <p>
+                    <a
+                        href="https://github.com/tschope/irish_passport_tracker_notifier"
+                        target="_blank"
+                        class="text-blue-600 underline hover:text-blue-800"
+                    >
+                        GitHub Repository: Irish Passport Tracker Notifier
+                    </a>
+                </p>
+            </section>
+
+            <section class="mb-6">
+                <h2 class="text-lg font-semibold mb-2">8. Changes to This Policy</h2>
                 <p class="text-gray-700">
                     We reserve the right to update this Privacy Policy periodically. Any
                     changes will be notified through our website and will take effect
@@ -98,7 +115,7 @@
             </section>
 
             <section class="mb-6">
-                <h2 class="text-lg font-semibold mb-2">8. Contact Us</h2>
+                <h2 class="text-lg font-semibold mb-2">9. Contact Us</h2>
                 <p class="text-gray-700">
                     If you have any questions or concerns about this Privacy Policy,
                     please contact us at: <br />
