@@ -117,7 +117,7 @@
             <p>No status history available.</p>
         @endif
 
-        @if($statusData['progress'] === 100)
+        @if($statusData['progress'] === 100.0)
             <p>
                 <strong>You subscription ended because your passport has been sent to you. Thanks for use our services.</strong>
             </p>

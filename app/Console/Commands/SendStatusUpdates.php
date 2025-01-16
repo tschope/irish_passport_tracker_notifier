@@ -86,7 +86,7 @@ class SendStatusUpdates extends Command
 
                     Mail::to($email)->send(new PassportStatusMail($statusData, $applicationId, $unsubscribeToken->unsubscribe_token));
 
-                    if ($statusData['progress'] === 100) {
+                    if ($statusData['progress'] === 100.0) {
                         $record->delete();
                         Log::info("Application ID $record->applicationId has been removed from database because it has been completed");
                     }
