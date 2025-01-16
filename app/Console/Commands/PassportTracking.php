@@ -7,6 +7,7 @@ use App\Models\ApplicationIdToEmail;
 use App\Models\UnsubscribeToken;
 use Illuminate\Console\Command;
 use App\Mail\PassportStatusMail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Tschope\PassportTrackingClient\PassportTrackingClient;
@@ -21,6 +22,7 @@ class PassportTracking extends Command
     {
         $reference = $this->argument('reference');
         $this->info("Tracking passport status for reference: $reference");
+        Log::info('Tracking passport status for reference: ' . $reference);
 
         $client = new PassportTrackingClient();
         $statusData = $client->getStatus($reference);
@@ -32,7 +34,8 @@ class PassportTracking extends Command
             $this->error("Error processing Application ID: $reference. " . $statusData['message']);
             Mail::to($email)->send(new PassportStatusRemoveMail(['Message' => $statusData['message']], $reference));
 
-            // $user->delete();
+            $user->delete();
+            Log::error("Error processing Application ID: $reference. " . $statusData['message']);
 
             return 0;
         }
@@ -50,9 +53,11 @@ class PassportTracking extends Command
             Mail::to($email)->send(new PassportStatusMail($statusData, $reference, $unsubscribeToken->unsubscribe_token));
 
             $this->info('Email sent successfully!');
+            Log::info('Email sent successfully! Application ID: ' . $reference);
 
         } else {
             $this->error('Unable to retrieve tracking data. Email not sent.');
+            Log::error('Unable to retrieve tracking data. Email not sent. Application ID: ' . $reference);
             return 0;
         }
 

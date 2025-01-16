@@ -89,7 +89,7 @@
         <h2>Application ID: {{ $statusData['application_id'] }}</h2>
         <p><strong>Estimated Issue Date:</strong> {{ $statusData['estimated_issue_date'] }}</p>
         <p><strong>Last Updated:</strong> {{ $statusData['last_update'] }}</p>
-        <p><strong>Progress:</strong> {{ $statusData['progress'] }}</p>
+        <p><strong>Progress:</strong> {{ $statusData['progress'] }}%</p>
         <p><strong>Last Update:</strong> {{ $statusData['alert_title'] }}</p>
         <p><strong>Last Message:</strong> {!! $statusData['alert_message'] !!}</p>
 
@@ -117,12 +117,18 @@
             <p>No status history available.</p>
         @endif
 
-        <p>
-            If you no longer wish to receive these notifications, you can unsubscribe by clicking the link below:
-        </p>
-        <p>
-            <a href="{{ url('/unsubscribe/' . $unsubscribeToken) }}" class="button">Unsubscribe</a>
-        </p>
+        @if($statusData['progress'] === 100)
+            <p>
+                <strong>You subscription ended because your passport has been sent to you. Thanks for use our services.</strong>
+            </p>
+        @else
+            <p>
+                If you no longer wish to receive these notifications, you can unsubscribe by clicking the link below:
+            </p>
+            <p>
+                <a href="{{ url('/unsubscribe/' . $unsubscribeToken) }}" class="button">Unsubscribe</a>
+            </p>
+        @endif
     </div>
 
     <!-- Footer -->

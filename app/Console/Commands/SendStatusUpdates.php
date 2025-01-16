@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Mail\PassportStatusRemoveMail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Models\ApplicationIdToEmail;
 use App\Models\UnsubscribeToken;
@@ -47,15 +48,13 @@ class SendStatusUpdates extends Command
             ->where(function ($query) use ($isWeekend) {
                 if ($isWeekend) {
                     $query->where('weekends', true);
-                } else {
-                    $query->where('weekends', true)
-                        ->orWhere('weekends', false);
                 }
             })
             ->get();
 
         if ($records->isEmpty()) {
             $this->info("No notifications to send at $time.");
+            Log::info("No notifications to send at $time.");
             return 0;
         }
 
@@ -72,15 +71,13 @@ class SendStatusUpdates extends Command
                     Mail::to($email)->send(new PassportStatusRemoveMail(['Message' => $statusData['message']], $applicationId));
 
                     $record->delete();
+                    Log::info("Application ID $record->applicationId has been removed from database");
 
                     continue;
                 }
 
                 if ($statusData) {
                     $this->info("Passport Tracking Status for Application ID: $applicationId");
-                    foreach ($statusData as $key => $value) {
-                        $this->line("$key: $value");
-                    }
 
                     $unsubscribeToken = UnsubscribeToken::firstOrCreate(
                         ['applicationId' => $applicationId],
@@ -89,12 +86,19 @@ class SendStatusUpdates extends Command
 
                     Mail::to($email)->send(new PassportStatusMail($statusData, $applicationId, $unsubscribeToken->unsubscribe_token));
 
-                    $this->info("Email sent successfully to $email!");
+                    if ($statusData['progress'] === 100) {
+                        $record->delete();
+                        Log::info("Application ID $record->applicationId has been removed from database because it has been completed");
+                    }
+
+                    Log::info("Passport Tracking Status for Application ID: $applicationId has been sent via email");
                 } else {
                     $this->error("Unable to retrieve tracking data for Application ID: $applicationId. Email not sent.");
+                    Log::error("Unable to retrieve tracking data for Application ID: $applicationId. Email not sent.");
                 }
             } catch (\Exception $e) {
                 $this->error("Error processing Application ID: $record->applicationId. " . $e->getMessage());
+                Log::error("Error processing Application ID: $record->applicationId. " . $e->getMessage());
             }
         }
 
