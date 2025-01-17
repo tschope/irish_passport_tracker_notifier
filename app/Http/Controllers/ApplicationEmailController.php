@@ -209,6 +209,10 @@ class ApplicationEmailController extends Controller
 
         // $applicationEmail = ApplicationIdToEmail::where('id', $verification->applicationId)->first();
         $applicationEmail = ApplicationIdToEmail::where('applicationId', $verification->applicationId)->first();
+        if (!$applicationEmail) {
+            return response()->view('emails.verification_error', ['message' => 'Application ID not found'], 404)
+                ->header('Refresh', '5;url='.$this->frontEndUrl);
+        }
 
         // Atualizar o campo email_verified na tabela de application_id_to_email
         $applicationEmail->email_verified = true;
