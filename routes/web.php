@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApplicationEmailController;
 
 Route::get('/', function () {
-    return response()->json(['message' => 'API is working']);
+    return view('welcome');
 });
 
 Route::get('/email/verify/{hash}', [ApplicationEmailController::class, 'verifyEmail'])->name('email.verify');
