@@ -6,10 +6,11 @@
         <p class="text-lg text-center mb-8">
             Enter your Application ID and Email to unsubscribe from status notifications.
         </p>
+        <!-- Logo -->
         <img
             src="@/assets/images/logo.png"
             alt="Logo"
-            class="w-[460px] h-[180px] mb-4"
+            class="w-[300px] h-[120px] mb-4 sm:w-[460px] sm:h-[180px]"
         />
         <!-- Mensagem de sucesso ou erro -->
         <div v-if="message.text" :class="messageClass" class="w-full max-w-md text-center p-4 mb-4 rounded-lg">
@@ -67,13 +68,19 @@
                 </button>
             </div>
         </form>
-        <div class="mt-4">
+        <div class="mt-4 mb-12 sm:mb-2">
             <p class="text-sm text-gray-600">
                 <a
                     @click.prevent="navigateToHome"
-                    class="text-blue-500 hover:underline cursor-pointer"
+                    class="text-blue-500 hover:underline cursor-pointer mr-6"
                 >
                     Home
+                </a>
+                <a
+                    @click.prevent="navigateToPrivacy"
+                    class="text-blue-500 hover:underline cursor-pointer"
+                >
+                    Privacy Policy
                 </a>
             </p>
         </div>
@@ -136,6 +143,9 @@ const handleUnsubscribe = async () => {
 
 const navigateToHome = () => {
     navigateTo('/')
+};
+const navigateToPrivacy = () => {
+    navigateTo('/privacy')
 };
 </script>
 

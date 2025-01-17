@@ -1,7 +1,18 @@
 <template>
     <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
         <div class="bg-white shadow-md rounded-lg max-w-3xl p-8">
-            <h1 class="text-2xl font-bold mb-4 text-center">Privacy Policy</h1>
+            <!-- Título -->
+            <h1 class="text-4xl font-bold mb-4 text-center">
+                Irish Passport<br>
+                E-mail Notifier<br>
+                Privacy Policy
+            </h1>
+            <!-- Logo -->
+            <img
+                src="@/assets/images/logo.png"
+                alt="Logo"
+                class="w-[300px] h-[120px] mb-4 sm:w-[460px] sm:h-[180px]"
+            />
             <p class="text-gray-600 mb-4 text-center">
                 Last updated: <span>{{ lastUpdated }}</span>
             </p>
@@ -128,11 +139,11 @@
                 </p>
             </section>
         </div>
-        <div class="mt-4">
+        <div class="mt-4 mb-12 sm:mb-2">
             <p class="text-sm text-gray-600">
                 <a
                     @click.prevent="navigateToHome"
-                    class="text-blue-500 hover:underline cursor-pointer"
+                    class="text-blue-500 hover:underline cursor-pointer mr-6"
                 >
                     Home
                 </a>
@@ -148,7 +159,7 @@
 </template>
 
 <script setup>
-const lastUpdated = "January 16, 2025";
+const lastUpdated = "January 17, 2025";
 
 const navigateToUnsubscribe = () => {
     navigateTo('/unsubscribe')
