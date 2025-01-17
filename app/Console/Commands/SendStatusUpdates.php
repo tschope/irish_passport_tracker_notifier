@@ -38,6 +38,7 @@ class SendStatusUpdates extends Command
         $time = $this->argument('time');
         $today = Carbon::now();
         $isWeekend = $today->isWeekend();
+        $time = strlen($time) === 4 ? '0' . $time : $time;
 
         // Buscar registros que correspondem ao horário e verificar finais de semana
         $records = ApplicationIdToEmail::where('email_verified', true)
@@ -45,12 +46,15 @@ class SendStatusUpdates extends Command
                 $query->where('send_time_1', $time)
                     ->orWhere('send_time_2', $time);
             })
-            ->where(function ($query) use ($isWeekend) {
-                if ($isWeekend) {
+            ->when(
+                $isWeekend ?? false,
+                function ($query) {
                     $query->where('weekends', true);
                 }
-            })
+            )
             ->get();
+
+        dd($records);
 
         if ($records->isEmpty()) {
             $this->info("No notifications to send at $time.");
