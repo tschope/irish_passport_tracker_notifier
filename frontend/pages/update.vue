@@ -191,6 +191,11 @@ const handleSubmit = async () => {
     }
 };
 
+const getFormattedTime = (time) => {
+    const [hour, minute] = time.split(':');
+    return `${parseInt(hour)}:${minute}`;
+};
+
 const getDetailsFromApi = async () => {
     try {
         const response = await fetch(`${config.public.apiBase}/getDetails`, {
@@ -224,14 +229,19 @@ const getDetailsFromApi = async () => {
         form.value.applicationId = responseData.applicationId;
         form.value.email = responseData.email;
 
+        // Formatando e adicionando os horários válidos
         if (responseData.send_time_1) {
-            if (responseData.send_time_1 === '08:00') {
-                responseData.send_time_1 = '8:00';
+            let formattedTime = getFormattedTime(responseData.send_time_1);
+            if (times.includes(formattedTime)) {
+                form.value.selectedTimes.push(formattedTime);
             }
-            form.value.selectedTimes.push(responseData.send_time_1);
         }
+
         if (responseData.send_time_2 && responseData.send_time_2 !== '00:00') {
-            form.value.selectedTimes.push(responseData.send_time_2);
+            let formattedTime = getFormattedTime(responseData.send_time_2);
+            if (times.includes(formattedTime)) {
+                form.value.selectedTimes.push(formattedTime);
+            }
         }
 
         if (responseData.notification_days) {
