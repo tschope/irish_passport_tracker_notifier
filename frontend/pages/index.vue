@@ -75,6 +75,24 @@
                     You can select a maximum of 2 times.
                 </p>
             </div>
+            <!-- Dias da Semana -->
+            <div class="mb-6">
+                <p class="text-gray-700 font-medium mb-2">
+                    Select the days of the week you'd like to receive notifications:
+                </p>
+                <div v-for="(day, index) in daysOfWeek" :key="index" class="mb-2">
+                    <input
+                        type="checkbox"
+                        :value="day"
+                        v-model="form.selectedDays"
+                        :disabled="loading"
+                        id="day-{{ index }}"
+                    />
+                    <label :for="'day-' + index" class="ml-2 text-gray-600">
+                        {{ day }}
+                    </label>
+                </div>
+            </div>
             <!-- Receber aos finais de semana -->
             <div class="mb-6">
                 <input type="checkbox" v-model="form.weekends" id="weekends" :disabled="loading" />
@@ -118,6 +136,7 @@ const form = ref({
     applicationId: '',
     email: '',
     selectedTimes: [],
+    selectedDays: ['Monday', 'Wednesday', 'Friday'],
     weekends: false,
 });
 
@@ -127,6 +146,7 @@ const message = ref({
 });
 
 const times = ['8:00', '10:00', '13:00', '16:00', '18:00']; // Opções de horários
+const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 const loading = ref(false);
 
@@ -167,6 +187,7 @@ const handleSubmit = async () => {
                 email: form.value.email,
                 send_time_1: formatTime(form.value.selectedTimes[0] || '00:00'),
                 send_time_2: formatTime(form.value.selectedTimes[1] || '00:00'),
+                notification_days: form.value.selectedDays,
                 weekends: form.value.weekends,
             }),
         });
@@ -199,6 +220,7 @@ const resetForm = () => {
     form.value.applicationId = '';
     form.value.email = '';
     form.value.selectedTimes = [];
+    form.value.selectedDays = [];
     form.value.weekends = false;
 };
 

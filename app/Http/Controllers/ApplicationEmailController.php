@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\EmailVerificationMail;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Validation\Rule;
 
 class ApplicationEmailController extends Controller
 {
@@ -29,6 +30,11 @@ class ApplicationEmailController extends Controller
             'email' => 'required|email',
             'send_time_1' => 'required|date_format:H:i',
             'send_time_2' => 'nullable|date_format:H:i',
+            'notification_days' => [
+                'required',
+                'array',
+                Rule::in(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']),
+            ],
             'weekends' => 'required|boolean',
         ]);
 
@@ -63,6 +69,11 @@ class ApplicationEmailController extends Controller
             'email' => 'required|email',
             'send_time_1' => 'required|date_format:H:i',
             'send_time_2' => 'nullable|date_format:H:i',
+            'notification_days' => [
+                'required',
+                'array',
+                Rule::in(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']),
+            ],
             'weekends' => 'required|boolean',
         ]);
 

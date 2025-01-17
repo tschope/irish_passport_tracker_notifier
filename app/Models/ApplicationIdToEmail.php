@@ -17,11 +17,13 @@ class ApplicationIdToEmail extends Model
         'email_verified',
         'send_time_1',
         'send_time_2',
+        'notification_days',
         'weekends',
     ];
 
     // Criptografando o email automaticamente
     protected $casts = [
         'email' => 'encrypted',
+        'notification_days' => 'array',
     ];
 }

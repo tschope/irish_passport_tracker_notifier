@@ -37,24 +37,23 @@ class SendStatusUpdates extends Command
     {
         $time = $this->argument('time');
         $today = Carbon::now();
+        $currentDay = $today->format('l'); // Exemplo: "Monday", "Tuesday", etc.
         $isWeekend = $today->isWeekend();
         $time = strlen($time) === 4 ? '0' . $time : $time;
 
-        // Buscar registros que correspondem ao horário e verificar finais de semana
+        // Buscar registros que correspondem ao horário e verificar finais de semana e dias permitidos
         $records = ApplicationIdToEmail::where('email_verified', true)
             ->where(function ($query) use ($time) {
                 $query->where('send_time_1', $time)
                     ->orWhere('send_time_2', $time);
             })
-            ->when(
-                $isWeekend ?? false,
-                function ($query) {
-                    $query->where('weekends', true);
-                }
-            )
+            ->where(function ($query) use ($currentDay, $isWeekend) {
+                $query->whereJsonContains('notification_days', $currentDay)
+                    ->orWhere(function ($subQuery) use ($isWeekend) {
+                        $subQuery->where('weekends', true)->whereRaw($isWeekend ? '1=1' : '0=1');
+                    });
+            })
             ->get();
-
-        dd($records);
 
         if ($records->isEmpty()) {
             $this->info("No notifications to send at $time.");
