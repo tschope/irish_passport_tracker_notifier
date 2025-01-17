@@ -69,7 +69,7 @@ class SendStatusUpdates extends Command
                 $statusData = $client->getStatus($applicationId);
                 $email = Crypt::decrypt($record->email);
 
-                if($statusData['error']) {
+                if(!empty($statusData['error'])) {
                     $this->error("Error processing Application ID: $record->applicationId. " . $statusData['message']);
                     Mail::to($email)->send(new PassportStatusRemoveMail(['Message' => $statusData['message']], $applicationId));
 

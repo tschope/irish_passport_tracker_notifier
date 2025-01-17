@@ -7,6 +7,7 @@ use App\Models\EmailVerification;
 use App\Models\UnsubscribeToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\EmailVerificationMail;
@@ -85,6 +86,8 @@ class ApplicationEmailController extends Controller
         $verificationUrl = route('email.verify', ['hash' => $verificationHash]);
 
         Mail::to($request->email)->send(new EmailVerificationMail($verificationUrl));
+
+        Log::info('Verification E-mail sent to Application ID: ' . $applicationEmail->applicationId);
 
         return response()->json($applicationEmail, 201); // Retorna o registro criado
     }
@@ -210,6 +213,8 @@ class ApplicationEmailController extends Controller
         // Atualizar o campo email_verified na tabela de application_id_to_email
         $applicationEmail->email_verified = true;
         $applicationEmail->save();
+
+        Log::info('E-mail verified. Sending first email to Application ID: ' . $applicationEmail->applicationId);
 
         // Disparar o comando Artisan para rastrear o passaporte
         Artisan::call('passport:track', [

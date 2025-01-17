@@ -58,7 +58,7 @@ class PassportTracking extends Command
             }
 
             $this->info('Email sent successfully!');
-            Log::info('Email sent successfully! Application ID: ' . $reference);
+            Log::info('First Status Email sent successfully! Application ID: ' . $reference);
 
         } else {
             $this->error('Unable to retrieve tracking data. Email not sent.');

@@ -5959,16 +5959,16 @@
         },
         {
             "name": "tschope/passport-tracking-client",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tschope/passport-tracking-client.git",
-                "reference": "16593d1f9d1252d4a908621d372fd037182c5ae9"
+                "reference": "355726609205bf8fa03668bb6d81174f12c8962c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tschope/passport-tracking-client/zipball/16593d1f9d1252d4a908621d372fd037182c5ae9",
-                "reference": "16593d1f9d1252d4a908621d372fd037182c5ae9",
+                "url": "https://api.github.com/repos/tschope/passport-tracking-client/zipball/355726609205bf8fa03668bb6d81174f12c8962c",
+                "reference": "355726609205bf8fa03668bb6d81174f12c8962c",
                 "shasum": ""
             },
             "require": {
@@ -5996,9 +5996,9 @@
             "description": "A package for tracking Irish passport applications.",
             "support": {
                 "issues": "https://github.com/tschope/passport-tracking-client/issues",
-                "source": "https://github.com/tschope/passport-tracking-client/tree/1.0.3"
+                "source": "https://github.com/tschope/passport-tracking-client/tree/1.0.4"
             },
-            "time": "2025-01-15T23:03:54+00:00"
+            "time": "2025-01-17T16:18:12+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
