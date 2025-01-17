@@ -62,6 +62,36 @@ class ApplicationEmailController extends Controller
         return response()->json($applicationEmail, 201); // Retorna o registro criado
     }
 
+    public function getDetails(Request $request)
+    {
+        $request->validate([
+            'applicationId' => 'required|exists:application_id_to_email,applicationId',
+            'email' => 'required|email',
+        ]);
+
+        $data = $request->all();
+        $applicationId = $data['applicationId'];
+
+        $applicationDetails = ApplicationIdToEmail::where('applicationId', $applicationId)->first();
+
+        $emailDecrypted = Crypt::decrypt($applicationDetails->email);
+
+        if ($emailDecrypted !== $data['email']) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+
+        $return = [
+            'applicationId' => $applicationDetails->applicationId,
+            'email' => $emailDecrypted,
+            'send_time_1' => $applicationDetails->send_time_1,
+            'send_time_2' => $applicationDetails->send_time_2,
+            'notification_days' =>  $applicationDetails->notification_days,
+            'weekends' =>  $applicationDetails->weekends,
+        ];
+
+        return response()->json($return, 200); // Retorna o registro atualizado
+    }
+
     // Atualizar registro existente
     public function update(Request $request, $applicationId)
     {

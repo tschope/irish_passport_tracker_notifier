@@ -4,6 +4,10 @@
         <h1 class="text-4xl font-bold mb-4 text-center mt-10 sm:mt-0">
             Irish Passport E-mail Notifier
         </h1>
+        <!-- Título -->
+        <h2 class="text-2xl font-bold mb-4 text-center mt-10 sm:mt-0">
+            Details Update
+        </h2>
         <!-- Logo -->
         <img
             src="@/assets/images/logo.png"
@@ -12,9 +16,7 @@
         />
         <!-- Descrição -->
         <p class="text-lg text-gray-700 mb-8 text-center max-w-2xl">
-            This website helps you stay updated about your Irish Passport application.
-            Enter your Application ID, Email, choose the times you'd like to receive notifications,
-            and let us keep you informed via email updates.
+            Use you Application ID and Email to update your notification preferences.
         </p>
         <!-- Mensagem de sucesso ou erro -->
         <div v-if="message.text" :class="messageClass" class="w-full max-w-md text-center p-4 mb-4 rounded-lg">
@@ -34,7 +36,7 @@
                     type="text"
                     id="applicationId"
                     placeholder="Enter your Application ID"
-                    :disabled="loading"
+                    :disabled="loading || getDetails"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 disabled:bg-gray-200"
                     required
                 />
@@ -55,7 +57,7 @@
                 />
             </div>
             <!-- Horários -->
-            <div class="mb-4">
+            <div class="mb-4" v-if="getDetails">
                 <p class="text-gray-700 font-medium mb-2">
                     What time(s) would you like to receive notifications?
                 </p>
@@ -76,7 +78,7 @@
                 </p>
             </div>
             <!-- Dias da Semana -->
-            <div class="mb-6">
+            <div class="mb-6" v-if="getDetails">
                 <p class="text-gray-700 font-medium mb-2">
                     Select the days of the week you'd like to receive notifications:
                 </p>
@@ -94,7 +96,7 @@
                 </div>
             </div>
             <!-- Receber aos finais de semana -->
-            <div class="mb-6">
+            <div class="mb-6" v-if="getDetails">
                 <input type="checkbox" v-model="form.weekends" id="weekends" :disabled="loading" />
                 <label for="weekends" class="ml-2 text-gray-700">
                     Receive notifications on weekends?
@@ -112,10 +114,10 @@
         <div class="mt-4 mb-12 sm:mb-2">
             <p class="text-sm text-gray-600">
                 <a
-                    @click.prevent="navigateToUpdate"
+                    @click.prevent="navigateToHome"
                     class="text-blue-500 hover:underline cursor-pointer mr-6"
                 >
-                    Update your details
+                    Home
                 </a>
                 <a
                     @click.prevent="navigateToUnsubscribe"
@@ -155,6 +157,7 @@ const times = ['8:00', '10:00', '13:00', '16:00', '18:00']; // Opções de horá
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 const loading = ref(false);
+const getDetails = ref(false);
 
 const config = useRuntimeConfig();
 
@@ -181,8 +184,16 @@ const handleSubmit = async () => {
     loading.value = true;
     message.value.text = '';
 
+    if(getDetails.value) {
+        await updateDetails();
+    } else {
+        await getDetailsFromApi();
+    }
+};
+
+const getDetailsFromApi = async () => {
     try {
-        const response = await fetch(`${config.public.apiBase}/application-email`, {
+        const response = await fetch(`${config.public.apiBase}/getDetails`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -190,6 +201,70 @@ const handleSubmit = async () => {
             },
             body: JSON.stringify({
                 applicationId: form.value.applicationId,
+                email: form.value.email,
+            }),
+        });
+
+        console.log(response.ok); // Verifica se a resposta tem status 200-299
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            message.value = {
+                text: errorData.message || 'An unexpected error occurred. Please try again later.',
+                type: 'error',
+            };
+            return;
+        }
+
+        // Parse do body da resposta
+        const responseData = await response.json();
+
+        resetForm();
+
+        form.value.applicationId = responseData.applicationId;
+        form.value.email = responseData.email;
+
+        if (responseData.send_time_1) {
+            if (responseData.send_time_1 === '08:00') {
+                responseData.send_time_1 = '8:00';
+            }
+            form.value.selectedTimes.push(responseData.send_time_1);
+        }
+        if (responseData.send_time_2 && responseData.send_time_2 !== '00:00') {
+            form.value.selectedTimes.push(responseData.send_time_2);
+        }
+
+        if (responseData.notification_days) {
+            form.value.selectedDays = responseData.notification_days;
+        }
+        form.value.weekends = responseData.weekends;
+
+        message.value = {
+            text: 'Now you can update your notification preferences.',
+            type: 'success',
+        };
+        getDetails.value = true;
+
+    } catch (err) {
+        console.error(err); // Log de erro para depuração
+        message.value = {
+            text: 'Error. An unexpected error occurred. Please try again later.',
+            type: 'error',
+        };
+    } finally {
+        loading.value = false;
+    }
+}
+
+const updateDetails = async () => {
+    try {
+        const response = await fetch(`${config.public.apiBase}/application-email/${form.value.applicationId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
                 email: form.value.email,
                 send_time_1: formatTime(form.value.selectedTimes[0] || '00:00'),
                 send_time_2: formatTime(form.value.selectedTimes[1] || '00:00'),
@@ -208,10 +283,13 @@ const handleSubmit = async () => {
         }
 
         message.value = {
-            text: 'Your application was submitted successfully!',
+            text: 'Your notification preferences have been updated successfully.',
             type: 'success',
         };
-        resetForm();
+
+        resetForm()
+        getDetails.value = false;
+
     } catch (err) {
         message.value = {
             text: 'An unexpected error occurred. Please try again later.',
@@ -220,7 +298,7 @@ const handleSubmit = async () => {
     } finally {
         loading.value = false;
     }
-};
+}
 
 const resetForm = () => {
     form.value.applicationId = '';
@@ -229,9 +307,8 @@ const resetForm = () => {
     form.value.selectedDays = [];
     form.value.weekends = false;
 };
-
-const navigateToUpdate = () => {
-    navigateTo('/update')
+const navigateToHome = () => {
+    navigateTo('/')
 };
 const navigateToUnsubscribe = () => {
     navigateTo('/unsubscribe')
