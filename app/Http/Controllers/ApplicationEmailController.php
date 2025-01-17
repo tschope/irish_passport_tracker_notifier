@@ -26,7 +26,13 @@ class ApplicationEmailController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'applicationId' => 'required|unique:application_id_to_email,applicationId',
+            'applicationId' => [
+                'required',
+                'numeric',
+                'min:10000000000', // Definindo um valor mínimo (caso precise)
+                'max:99999999999', // Definindo um valor máximo (caso precise)
+                'unique:application_id_to_email,applicationId',
+            ],
             'email' => 'required|email',
             'send_time_1' => 'required|date_format:H:i',
             'send_time_2' => 'nullable|date_format:H:i',
@@ -36,6 +42,27 @@ class ApplicationEmailController extends Controller
                 Rule::in(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']),
             ],
             'weekends' => 'required|boolean',
+        ], [
+            'applicationId.required' => 'The Application ID field is required.',
+            'applicationId.numeric' => 'The Application ID must be a valid number.',
+            'applicationId.min' => 'The Application ID must have at least 11 digits.',
+            'applicationId.max' => 'The Application ID cannot have more than 11 digits.',
+            'applicationId.unique' => 'The Application ID is already registered.',
+
+            'email.required' => 'The Email field is required.',
+            'email.email' => 'The provided Email is not valid.',
+
+            'send_time_1.required' => 'The Send Time 1 field is required.',
+            'send_time_1.date_format' => 'The Send Time 1 must be in the format HH:MM.',
+
+            'send_time_2.date_format' => 'The Send Time 2 must be in the format HH:MM.',
+
+            'notification_days.required' => 'The Notification Days field is required.',
+            'notification_days.array' => 'The Notification Days must be an array.',
+            'notification_days.in' => 'The Notification Days must be one of the following: Monday, Tuesday, Wednesday, Thursday, Friday.',
+
+            'weekends.required' => 'The Weekends field is required.',
+            'weekends.boolean' => 'The Weekends field must be true or false.',
         ]);
 
         $data = $request->all();
@@ -65,8 +92,23 @@ class ApplicationEmailController extends Controller
     public function getDetails(Request $request)
     {
         $request->validate([
-            'applicationId' => 'required|exists:application_id_to_email,applicationId',
+            'applicationId' => [
+                'required',
+                'numeric',
+                'min:10000000000', // Definindo um valor mínimo (caso precise)
+                'max:99999999999', // Definindo um valor máximo (caso precise)
+                'exists:application_id_to_email,applicationId',
+            ],
             'email' => 'required|email',
+        ], [
+            'applicationId.required' => 'The Application ID field is required.',
+            'applicationId.numeric' => 'The Application ID must be a valid number.',
+            'applicationId.min' => 'The Application ID must have at least 11 digits.',
+            'applicationId.max' => 'The Application ID cannot have more than 11 digits.',
+            'applicationId.unique' => 'The Application ID not registered.',
+
+            'email.required' => 'The Email field is required.',
+            'email.email' => 'The provided Email is not valid.',
         ]);
 
         $data = $request->all();
