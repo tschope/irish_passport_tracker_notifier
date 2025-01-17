@@ -24,11 +24,16 @@ class PassportTracking extends Command
         $this->info("Tracking passport status for reference: $reference");
         Log::info('Tracking passport status for reference: ' . $reference);
 
+        $user = ApplicationIdToEmail::where('applicationId', $reference)->first();
+        if(!$user) {
+            $this->error("Application ID: $reference not found in database.");
+            Log::error("Application ID: $reference not found in database.");
+            return 0;
+        }
+        $email = Crypt::decrypt($user->email);
+
         $client = new PassportTrackingClient();
         $statusData = $client->getStatus($reference);
-
-        $user = ApplicationIdToEmail::where('applicationId', $reference)->first();
-        $email = Crypt::decrypt($user->email);
 
         if(!empty($statusData['error'])) {
             $this->error("Error processing Application ID: $reference. " . $statusData['message']);
