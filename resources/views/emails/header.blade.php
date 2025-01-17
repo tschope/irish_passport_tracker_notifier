@@ -34,4 +34,14 @@
     <meta name="theme-color" content="#ffffff">
     <!-- Outros metadados e links -->
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG81D6TYZW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-YG81D6TYZW');
+    </script>
+
 </head>
