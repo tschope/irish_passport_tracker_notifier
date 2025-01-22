@@ -34,12 +34,12 @@ export default defineNuxtConfig({
               { name: 'ogImage', content: 'https://opengraph.b-cdn.net/production/images/384a9630-5979-4ef7-8822-f8702216f985.png?token=6gAdbZGEOjmXrlzu2NancDQSdDzxG0-nZycXqz1_D9E&height=362&width=867&expires=33273561833' },
               { name: 'ogUrl', content: process.env.APP_URL },
               { name: 'ogType', content: 'website' },
-              { name: 'twitterCard', content: 'summary_large_image' },
-              { name: 'twitterDomain', content: process.env.APP_URL },
-              { name: 'twitterUrl', content: process.env.APP_URL },
-                { name: 'twitterTitle', content: process.env.APP_NAME },
-                { name: 'twitterDescription', content: 'This website helps you stay updated about your Irish Passport application. Enter your Application ID, Email, choose the times you\'d like to receive notifications, and let us keep you informed via email updates.' },
-                { name: 'twitterImage', content: 'https://opengraph.b-cdn.net/production/images/384a9630-5979-4ef7-8822-f8702216f985.png?token=6gAdbZGEOjmXrlzu2NancDQSdDzxG0-nZycXqz1_D9E&height=362&width=867&expires=33273561833' },
+              { name: 'twitter:card', content: 'summary_large_image' },
+              { property: 'twitter:domain', content: process.env.APP_URL },
+              { property: 'twitter:url', content: process.env.APP_URL },
+              { name: 'twitter:title', content: process.env.APP_NAME },
+              { name: 'twitter:description', content: 'This website helps you stay updated about your Irish Passport application. Enter your Application ID, Email, choose the times you\'d like to receive notifications, and let us keep you informed via email updates.' },
+              { name: 'twitter:image', content: 'https://opengraph.b-cdn.net/production/images/384a9630-5979-4ef7-8822-f8702216f985.png?token=6gAdbZGEOjmXrlzu2NancDQSdDzxG0-nZycXqz1_D9E&height=362&width=867&expires=33273561833' },
 
           ],
       }
