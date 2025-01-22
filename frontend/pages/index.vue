@@ -4,12 +4,7 @@
         <h1 class="text-4xl font-bold mb-4 text-center mt-10 sm:mt-0">
             Irish Passport E-mail Notifier
         </h1>
-        <!-- Logo -->
-        <img
-            src="@/assets/images/logo.png"
-            alt="Logo"
-            class="w-[300px] h-[120px] mb-4 sm:w-[460px] sm:h-[180px]"
-        />
+        <Logo />
         <!-- Descrição -->
         <p class="text-lg text-gray-700 mb-8 text-center max-w-2xl">
             This website helps you stay updated about your Irish Passport application.
@@ -109,34 +104,19 @@
                 Submit
             </button>
         </form>
-        <div class="mt-4 mb-12 sm:mb-2">
-            <p class="text-sm text-gray-600">
-                <a
-                    @click.prevent="navigateToUpdate"
-                    class="text-blue-500 hover:underline cursor-pointer mr-6"
-                >
-                    Update your details
-                </a>
-                <a
-                    @click.prevent="navigateToUnsubscribe"
-                    class="text-blue-500 hover:underline cursor-pointer mr-6"
-                >
-                    Unsubscribe
-                </a>
-                <a
-                    @click.prevent="navigateToPrivacy"
-                    class="text-blue-500 hover:underline cursor-pointer"
-                >
-                    Privacy Policy
-                </a>
-            </p>
-        </div>
+        <FooterLinks :current-route="currentRouteName" />
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useFetch, useRuntimeConfig } from '#app';
+
+definePageMeta({
+    name: 'Home',
+});
+const route = useRoute();
+const currentRouteName = computed(() => route.name);
 
 const form = ref({
     applicationId: '',
@@ -228,16 +208,6 @@ const resetForm = () => {
     form.value.selectedTimes = [];
     form.value.selectedDays = [];
     form.value.weekends = false;
-};
-
-const navigateToUpdate = () => {
-    navigateTo('/update')
-};
-const navigateToUnsubscribe = () => {
-    navigateTo('/unsubscribe')
-};
-const navigateToPrivacy = () => {
-    navigateTo('/privacy')
 };
 </script>
 

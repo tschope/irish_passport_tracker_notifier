@@ -3,16 +3,10 @@
         <div class="bg-white shadow-md rounded-lg max-w-3xl p-8">
             <!-- Título -->
             <h1 class="text-4xl font-bold mb-4 text-center">
-                Irish Passport<br>
-                E-mail Notifier<br>
+                Irish Passport E-mail Notifier
                 Privacy Policy
             </h1>
-            <!-- Logo -->
-            <img
-                src="@/assets/images/logo.png"
-                alt="Logo"
-                class="w-[300px] h-[120px] mb-4 sm:w-[460px] sm:h-[180px]"
-            />
+            <Logo />
             <p class="text-gray-600 mb-4 text-center">
                 Last updated: <span>{{ lastUpdated }}</span>
             </p>
@@ -139,34 +133,20 @@
                 </p>
             </section>
         </div>
-        <div class="mt-4 mb-12 sm:mb-2">
-            <p class="text-sm text-gray-600">
-                <a
-                    @click.prevent="navigateToHome"
-                    class="text-blue-500 hover:underline cursor-pointer mr-6"
-                >
-                    Home
-                </a>
-                <a
-                    @click.prevent="navigateToUnsubscribe"
-                    class="text-blue-500 hover:underline cursor-pointer"
-                >
-                    Unsubscribe
-                </a>
-            </p>
-        </div>
+        <FooterLinks :current-route="currentRouteName" />
     </div>
 </template>
 
 <script setup>
+import { computed } from "vue";
+
+definePageMeta({
+    name: 'Privacy Policy',
+});
+const route = useRoute();
+const currentRouteName = computed(() => route.name);
 const lastUpdated = "January 17, 2025";
 
-const navigateToUnsubscribe = () => {
-    navigateTo('/unsubscribe')
-};
-const navigateToHome = () => {
-    navigateTo('/')
-};
 </script>
 
 <style scoped>

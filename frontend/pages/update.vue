@@ -4,16 +4,11 @@
         <h1 class="text-4xl font-bold mb-4 text-center mt-10 sm:mt-0">
             Irish Passport E-mail Notifier
         </h1>
-        <!-- Título -->
+        <!-- sub Título -->
         <h2 class="text-2xl font-bold mb-4 text-center mt-10 sm:mt-0">
             Details Update
         </h2>
-        <!-- Logo -->
-        <img
-            src="@/assets/images/logo.png"
-            alt="Logo"
-            class="w-[300px] h-[120px] mb-4 sm:w-[460px] sm:h-[180px]"
-        />
+        <Logo />
         <!-- Descrição -->
         <p class="text-lg text-gray-700 mb-8 text-center max-w-2xl">
             Use you Application ID and Email to update your notification preferences.
@@ -111,34 +106,19 @@
                 Submit
             </button>
         </form>
-        <div class="mt-4 mb-12 sm:mb-2">
-            <p class="text-sm text-gray-600">
-                <a
-                    @click.prevent="navigateToHome"
-                    class="text-blue-500 hover:underline cursor-pointer mr-6"
-                >
-                    Home
-                </a>
-                <a
-                    @click.prevent="navigateToUnsubscribe"
-                    class="text-blue-500 hover:underline cursor-pointer mr-6"
-                >
-                    Unsubscribe
-                </a>
-                <a
-                    @click.prevent="navigateToPrivacy"
-                    class="text-blue-500 hover:underline cursor-pointer"
-                >
-                    Privacy Policy
-                </a>
-            </p>
-        </div>
+        <FooterLinks :current-route="currentRouteName" />
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useFetch, useRuntimeConfig } from '#app';
+
+definePageMeta({
+    name: 'Update your details',
+});
+const route = useRoute();
+const currentRouteName = computed(() => route.name);
 
 const form = ref({
     applicationId: '',
@@ -317,15 +297,7 @@ const resetForm = () => {
     form.value.selectedDays = [];
     form.value.weekends = false;
 };
-const navigateToHome = () => {
-    navigateTo('/')
-};
-const navigateToUnsubscribe = () => {
-    navigateTo('/unsubscribe')
-};
-const navigateToPrivacy = () => {
-    navigateTo('/privacy')
-};
+
 </script>
 
 <style scoped>
