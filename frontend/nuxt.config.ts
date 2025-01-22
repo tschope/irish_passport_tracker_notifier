@@ -28,23 +28,20 @@ export default defineNuxtConfig({
               { name: 'msapplication-TileColor', content: '#ffffff' },
               { name: 'msapplication-TileImage', content: '/ms-icon-144x144.png' },
               { name: 'theme-color', content: '#ffffff' },
-              { name: 'description', content: 'This website helps you stay updated about your Irish Passport application.\n' +
-                      '            Enter your Application ID, Email, choose the times you\'d like to receive notifications,\n' +
-                      '            and let us keep you informed via email updates.', },
-              { name: 'ogDescription', content: 'This website helps you stay updated about your Irish Passport application.\n' +
-                      '            Enter your Application ID, Email, choose the times you\'d like to receive notifications,\n' +
-                      '            and let us keep you informed via email updates.', },
+              { name: 'description', content: 'This website helps you stay updated about your Irish Passport application. Enter your Application ID, Email, choose the times you\'d like to receive notifications, and let us keep you informed via email updates.', },
+              { name: 'ogDescription', content: 'This website helps you stay updated about your Irish Passport application. Enter your Application ID, Email, choose the times you\'d like to receive notifications, and let us keep you informed via email updates.', },
               { name: 'ogTitle', content: process.env.APP_NAME },
-              { name: 'ogImage', content: process.env.API_BASE_URL + '/storage/logo.png' },
+              { name: 'ogImage', content: 'https://opengraph.b-cdn.net/production/images/384a9630-5979-4ef7-8822-f8702216f985.png?token=6gAdbZGEOjmXrlzu2NancDQSdDzxG0-nZycXqz1_D9E&height=362&width=867&expires=33273561833' },
+              { name: 'ogUrl', content: process.env.APP_URL },
+              { name: 'ogType', content: 'website' },
+              { name: 'twitterCard', content: 'summary_large_image' },
+              { name: 'twitterDomain', content: process.env.APP_URL },
+              { name: 'twitterUrl', content: process.env.APP_URL },
+                { name: 'twitterTitle', content: process.env.APP_NAME },
+                { name: 'twitterDescription', content: 'This website helps you stay updated about your Irish Passport application. Enter your Application ID, Email, choose the times you\'d like to receive notifications, and let us keep you informed via email updates.' },
+                { name: 'twitterImage', content: 'https://opengraph.b-cdn.net/production/images/384a9630-5979-4ef7-8822-f8702216f985.png?token=6gAdbZGEOjmXrlzu2NancDQSdDzxG0-nZycXqz1_D9E&height=362&width=867&expires=33273561833' },
+
           ],
-          /*
-          title: 'My Amazing Site',
-            ogTitle: 'My Amazing Site',
-            description: 'This is my amazing site, let me tell you all about it.',
-            ogDescription: 'This is my amazing site, let me tell you all about it.',
-            ogImage: 'https://example.com/image.png',
-            twitterCard: 'summary_large_image',
-           */
       }
     },
 
