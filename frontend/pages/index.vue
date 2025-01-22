@@ -115,6 +115,11 @@ import { useFetch, useRuntimeConfig } from '#app';
 definePageMeta({
     name: 'Home',
 });
+
+useSeoMeta({
+    ogImage: '@/assets/images/logo.png',
+})
+
 const route = useRoute();
 const currentRouteName = computed(() => route.name);
 
