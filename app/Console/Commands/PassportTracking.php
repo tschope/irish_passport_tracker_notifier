@@ -48,6 +48,17 @@ class PassportTracking extends Command
         if ($statusData) {
             $this->info('Passport Tracking Status:');
 
+            $currentProgress = $statusData['progress'];
+
+            // Lógica de controle de progresso
+            if ($user->last_progress !== $currentProgress) {
+                $user->last_progress = $currentProgress;
+                $user->last_count_progress = 1; // Reseta a contagem
+            } else {
+                $user->last_count_progress++;
+            }
+            $user->save(); // Salva as alterações no registro
+
             $this->info('Sending status update via email...');
 
             $unsubscribeToken = UnsubscribeToken::firstOrCreate(
@@ -59,6 +70,7 @@ class PassportTracking extends Command
 
             if ($statusData['progress'] === 100.0) {
                 $user->delete();
+                $unsubscribeToken->delete();
                 Log::info("Application ID $reference has been removed from database because it has been completed");
             }
 

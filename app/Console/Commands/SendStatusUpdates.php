@@ -82,6 +82,27 @@ class SendStatusUpdates extends Command
                 if ($statusData) {
                     $this->info("Passport Tracking Status for Application ID: $applicationId");
 
+                    $currentProgress = $statusData['progress'];
+                    $removed = false;
+
+                    // Lógica de controle de progresso
+                    if ($record->last_progress !== $currentProgress) {
+                        $record->last_progress = $currentProgress;
+                        $record->last_count_progress = 1; // Reseta a contagem
+                    } else {
+                        $record->last_count_progress++;
+                    }
+
+                    // Verifica se o contador atingiu o limite
+                    if ($record->last_count_progress >= 5) {
+                        $removed = true; // Indica remoção para o statusData
+                    } else {
+                        $record->save(); // Salva as alterações no registro
+                    }
+
+                    // Atualiza o statusData para incluir a informação de remoção
+                    $statusData['removed'] = $removed;
+
                     $unsubscribeToken = UnsubscribeToken::firstOrCreate(
                         ['applicationId' => $applicationId],
                         ['unsubscribe_token' => Str::random(40)]
@@ -89,9 +110,10 @@ class SendStatusUpdates extends Command
 
                     Mail::to($email)->send(new PassportStatusMail($statusData, $applicationId, $unsubscribeToken->unsubscribe_token));
 
-                    if ($statusData['progress'] === 100.0) {
+                    if ($statusData['progress'] === 100.0 || $record->last_count_progress >= 5) {
                         $record->delete();
-                        Log::info("Application ID $record->applicationId has been removed from database because it has been completed");
+                        $unsubscribeToken->delete();
+                        Log::info("Application ID $record->applicationId has been removed from database because it has been completed or due to repeated progress");
                     }
 
                     Log::info("Passport Tracking Status for Application ID: $applicationId has been sent via email");
