@@ -35,6 +35,7 @@ export default defineNuxtConfig({
                       '            Enter your Application ID, Email, choose the times you\'d like to receive notifications,\n' +
                       '            and let us keep you informed via email updates.', },
               { name: 'ogTitle', content: process.env.APP_NAME },
+              { name: 'ogImage', content: process.env.API_BASE_URL + '/storage/logo.png' },
           ],
           /*
           title: 'My Amazing Site',
@@ -75,7 +76,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
       public: {
-          apiBase: process.env.API_BASE_URL || 'http://localhost:3000', // Valor padrão para fallback
+          apiBase: process.env.API_BASE_URL + '/api' || 'http://localhost:3000', // Valor padrão para fallback
       },
     },
 
