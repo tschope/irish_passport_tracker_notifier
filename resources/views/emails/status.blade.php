@@ -117,17 +117,23 @@
             <p>No status history available.</p>
         @endif
 
-        @if($statusData['progress'] === 100.0 || $statusData['removed'])
+        @if($statusData['removed'])
             <p>
-                <strong>You subscription ended because your passport has been sent to you. Thanks for use our services.</strong>
+                <strong>{{ $statusData['removed_message'] }}</strong>
             </p>
         @else
-            <p>
-                If you no longer wish to receive these notifications, you can unsubscribe by clicking the link below:
-            </p>
-            <p>
-                <a href="{{ url('/unsubscribe/' . $unsubscribeToken) }}" class="button">Unsubscribe</a>
-            </p>
+            @if($statusData['progress'] === 100.0)
+                <p>
+                    <strong>You subscription ended because your passport has been sent to you. Thanks for use our services.</strong>
+                </p>
+            @else
+                <p>
+                    If you no longer wish to receive these notifications, you can unsubscribe by clicking the link below:
+                </p>
+                <p>
+                    <a href="{{ url('/unsubscribe/' . $unsubscribeToken) }}" class="button">Unsubscribe</a>
+                </p>
+            @endif
         @endif
     </div>
 

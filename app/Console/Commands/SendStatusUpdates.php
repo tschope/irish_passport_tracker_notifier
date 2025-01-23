@@ -86,7 +86,8 @@ class SendStatusUpdates extends Command
                     $this->info("Passport Tracking Status for Application ID: $applicationId");
 
                     $currentProgress = $statusData['progress'];
-                    $removed = false;
+                    $statusData['removed'] = null;
+                    $statusData['removed_message'] = null;
 
                     // Lógica de controle de progresso
                     if ($record->last_progress !== $currentProgress) {
@@ -97,14 +98,12 @@ class SendStatusUpdates extends Command
                     }
 
                     // Verifica se o contador atingiu o limite
-                    if ($record->last_count_progress >= 5) {
-                        $removed = true; // Indica remoção para o statusData
+                    if ($record->last_count_progress >= $this->repetedProgressLimit) {
+                        $statusData['removed'] = true;
+                        $statusData['removed_message'] = 'Application ID has been removed from database because it has been completed or due to repeated progress';
                     } else {
                         $record->save(); // Salva as alterações no registro
                     }
-
-                    // Atualiza o statusData para incluir a informação de remoção
-                    $statusData['removed'] = $removed;
 
                     $unsubscribeToken = UnsubscribeToken::firstOrCreate(
                         ['applicationId' => $applicationId],
