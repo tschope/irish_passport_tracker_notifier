@@ -49,15 +49,12 @@ class PassportTracking extends Command
             $this->info('Passport Tracking Status:');
 
             $currentProgress = $statusData['progress'];
+            $statusData['removed'] = null;
+            $statusData['removed_message'] = null;
 
-            // Lógica de controle de progresso
-            if ($user->last_progress !== $currentProgress) {
-                $user->last_progress = $currentProgress;
-                $user->last_count_progress = 1; // Reseta a contagem
-            } else {
-                $user->last_count_progress++;
-            }
-            $user->save(); // Salva as alterações no registro
+            $user->last_progress = $currentProgress;
+            $user->last_count_progress = 1;
+            $user->save();
 
             $this->info('Sending status update via email...');
 
