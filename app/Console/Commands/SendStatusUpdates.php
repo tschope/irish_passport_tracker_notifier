@@ -16,6 +16,9 @@ use Carbon\Carbon;
 
 class SendStatusUpdates extends Command
 {
+
+    protected int $repetedProgressLimit = 10;
+
     /**
      * The name and signature of the console command.
      *
@@ -110,7 +113,7 @@ class SendStatusUpdates extends Command
 
                     Mail::to($email)->send(new PassportStatusMail($statusData, $applicationId, $unsubscribeToken->unsubscribe_token));
 
-                    if ($statusData['progress'] === 100.0 || $record->last_count_progress >= 5) {
+                    if ($statusData['progress'] === 100.0 || $record->last_count_progress >= $this->repetedProgressLimit) {
                         $record->delete();
                         $unsubscribeToken->delete();
                         Log::info("Application ID $record->applicationId has been removed from database because it has been completed or due to repeated progress");
