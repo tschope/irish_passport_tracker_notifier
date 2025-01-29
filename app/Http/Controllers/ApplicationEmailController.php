@@ -162,6 +162,7 @@ class ApplicationEmailController extends Controller
         $data['email'] = encrypt($data['email']); // Criptografando o email
 
         $applicationEmail->update($data);
+        Log::info("Application ID $applicationEmail->applicationId updates their information.");
 
         return response()->json($applicationEmail, 200); // Retorna o registro atualizado
     }
@@ -188,6 +189,7 @@ class ApplicationEmailController extends Controller
         }
 
         $record->delete();
+        Log::info("Application ID $record->applicationId decide to not receive anymore updates.");
 
         return response()->json(['success' => true, 'message' => 'Unsubscribed successfully.']);
     }
@@ -211,7 +213,7 @@ class ApplicationEmailController extends Controller
         $applicationEmail = ApplicationIdToEmail::where('applicationId', $verification->applicationId)->first();
         if (!$applicationEmail) {
             $verification->delete();
-            
+
             return response()->view('emails.verification_error', ['message' => 'Application ID not found'], 404)
                 ->header('Refresh', '5;url='.$this->frontEndUrl);
         }
@@ -250,6 +252,7 @@ class ApplicationEmailController extends Controller
 
         // Remove o token de descadastramento
         $unsubscribeToken->delete();
+        Log::info("Application ID $unsubscribeToken->applicationId decide to not receive anymore updates.");
 
         return response()->view('emails.verification_success', ['message' => 'You have successfully unsubscribed from notifications'])
             ->header('Refresh', '5;url='.$this->frontEndUrl);
